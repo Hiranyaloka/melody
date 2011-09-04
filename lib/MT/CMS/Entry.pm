@@ -1161,10 +1161,10 @@ sub save {
         }
         $seen->{$asset_id} = 1;
     }
-    foreach my $asset_id ( keys %{$obj_assets} ) {
-        my $asset = MT->model('asset')->load($asset_id);
-        unless ( $seen->{$asset_id} ) {
-            $asset->unassociate($obj);
+    foreach my $asset_id (keys %{$obj_assets}) {
+        unless ($seen->{$asset_id}) {
+            my $obj_asset = MT::ObjectAsset->load({ asset_id => $asset_id, object_ds => 'entry', object_id => $obj->id });
+            $obj_asset->remove;
         }
     }
 
